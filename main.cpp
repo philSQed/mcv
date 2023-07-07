@@ -10,8 +10,6 @@
 #error Unknown platform - does not look either like 32-bit or 64-bit
 #endif
 
-//#define ARCH_32 // test
-
 #ifdef ARCH_32
 #include "libThirdParty32.h"
 #else
