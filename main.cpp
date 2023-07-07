@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdint.h>
+#include <limits>
 
 #if UINTPTR_MAX == 0xffFFffFF // 32-bit platform
 #define ARCH_32
