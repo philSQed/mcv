@@ -15,18 +15,18 @@ jobs:
       matrix:
         include:
           - variant_name: Main
-            cxx: g++-10
+            cxx: g++
             build_type: Release
           - variant_name: Debug
-            cxx: g++-10
+            cxx: g++
             build_type: Debug
           - variant_name: Clang
-            cxx: clang++-10
+            cxx: clang++
             build_type: Debug
           - variant_name: 32
-            cxx: g++-10-multilib
+            cxx: g++
             build_type: Release
-            extra_packages: g++-10
+            extra_packages: g++-multilib
             is_32: 1
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
