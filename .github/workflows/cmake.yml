@@ -23,6 +23,7 @@ jobs:
           - variant_name: Clang
             cxx: clang++-10
             build_type: Debug
+            extra_packages: clang-10
           - variant_name: 32
             cxx: g++-10
             build_type: Release
