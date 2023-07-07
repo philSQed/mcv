@@ -36,7 +36,7 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Prepare environment
-        run: sudo apt-get install -y ${{ matrix.cxx }} ${{ extra_packages }}
+        run: sudo apt-get install -y ${{ matrix.cxx }} ${{ matrix.extra_packages }}
     
       - name: Download and install the build wrapper, build the project
         run: |
