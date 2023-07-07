@@ -24,9 +24,9 @@ jobs:
             cxx: clang++-10
             build_type: Debug
           - variant_name: 32
-            cxx: g++-10
+            cxx: g++-10-multilib
             build_type: Release
-            extra_packages: g++-10-multilib
+            extra_packages: g++-10
             is_32: 1
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
