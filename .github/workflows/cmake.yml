@@ -26,6 +26,7 @@ jobs:
           - variant_name: 32
             cxx: g++-13
             build_type: Release
+            extra_packages: g++-13-multilib
             is_32: 1
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
@@ -35,7 +36,7 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Prepare environment
-        run: sudo apt-get install -y ${{matrix.cxx}}
+        run: sudo apt-get install -y ${{ matrix.cxx }} ${{ extra_packages }}
     
       - name: Download and install the build wrapper, build the project
         run: |
