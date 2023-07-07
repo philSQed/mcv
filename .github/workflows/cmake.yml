@@ -15,22 +15,23 @@ jobs:
       matrix:
         include:
           - variant_name: Main
-            cxx: g++
+            cxx: g++-10
             build_type: Release
           - variant_name: Debug
-            cxx: g++
+            cxx: g++-10
             build_type: Debug
           - variant_name: Clang
-            cxx: clang++
+            cxx: clang++-10
             build_type: Debug
           - variant_name: 32
-            cxx: g++
+            cxx: g++-10
             build_type: Release
-            extra_packages: g++-multilib
+            extra_packages: g++-10-multilib
             is_32: 1
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
       IS_32: ${{ matrix.is_32 }}
+      CXX: ${{matrix.cxx}}
     steps:
       - uses: actions/checkout@v3
         with:
