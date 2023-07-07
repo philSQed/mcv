@@ -17,16 +17,18 @@ jobs:
           - variant_name: Main
             cxx: g++-10
             build_type: Release
+            extra_packages: g++-10
           - variant_name: Debug
             cxx: g++-10
             build_type: Debug
+            extra_packages: g++-10
           - variant_name: Clang
             cxx: clang++
             build_type: Debug
           - variant_name: 32
             cxx: g++-10
             build_type: Release
-            extra_packages: g++-10-multilib
+            extra_packages: g++-10 g++-10-multilib
             is_32: 1
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
@@ -37,7 +39,7 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Prepare environment
-        run: sudo apt-get install -y ${{ matrix.cxx }} ${{ matrix.extra_packages }}
+        run: sudo apt-get install -y ${{ matrix.extra_packages }}
     
       - name: Download and install the build wrapper, build the project
         run: |
