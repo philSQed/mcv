@@ -31,7 +31,8 @@ jobs:
             extra_packages: g++-10 g++-10-multilib
             is_32: 1
     env:
-      BUILD_WRAPPER_OUT_DIR: bwout/${{ matrix.variant_name }} # Directory where build-wrapper output will be placed
+      BUILD_WRAPPER_OUT_DIR_ROOT: bwout # Directory where build-wrapper output will be placed
+      BUILD_WRAPPER_OUT_DIR: ${{ BUILD_WRAPPER_OUT_DIR_ROOT }}/${{ matrix.variant_name }}]
       IS_32: ${{ matrix.is_32 }}
       CXX: ${{matrix.cxx}}
     steps:
@@ -43,8 +44,8 @@ jobs:
     
       - name: Download and install the build wrapper, build the project
         run: |
-          echo Building to [${{ env.BUILD_WRAPPER_OUT_DIR }}]
-          mkdir ${{ env.BUILD_WRAPPER_OUT_DIR }}
+          echo Building to [${{ env.BUILD_WRAPPER_OUT_DIR }}
+          mkdir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}
           mkdir $HOME/.sonar
           curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ secrets.SONAR_HOST_URL }}/static/cpp/build-wrapper-linux-x86.zip
           unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
