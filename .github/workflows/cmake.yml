@@ -31,7 +31,7 @@ jobs:
             extra_packages: g++-10 g++-10-multilib
             is_32: 1
     env:
-      BUILD_WRAPPER_OUT_DIR: bwout/${{ variant_name }} # Directory where build-wrapper output will be placed
+      BUILD_WRAPPER_OUT_DIR: bwout/${{ matrix.variant_name }} # Directory where build-wrapper output will be placed
       IS_32: ${{ matrix.is_32 }}
       CXX: ${{matrix.cxx}}
     steps:
