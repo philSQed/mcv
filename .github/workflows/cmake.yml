@@ -31,7 +31,7 @@ jobs:
             extra_packages: g++-10 g++-10-multilib
             is_32: 1
     env:
-      BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
+      BUILD_WRAPPER_OUT_DIR: bwout/${{ variant_name }} # Directory where build-wrapper output will be placed
       IS_32: ${{ matrix.is_32 }}
       CXX: ${{matrix.cxx}}
     steps:
@@ -47,7 +47,7 @@ jobs:
           curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ secrets.SONAR_HOST_URL }}/static/cpp/build-wrapper-linux-x86.zip
           unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
           cmake -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
-          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir bw-output cmake --build build
+          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ BUILD_WRAPPER_OUT_DIR }} cmake --build build
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
@@ -61,7 +61,7 @@ jobs:
           
       - name: SonarQube analysis
         run: |
-          sonar-scanner --define sonar.cfamily.build-wrapper-output=bw-output  
+          sonar-scanner --define sonar.cfamily.build-wrapper-output=${{ BUILD_WRAPPER_OUT_DIR }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
