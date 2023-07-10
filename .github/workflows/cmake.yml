@@ -10,53 +10,58 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - variant_name: Main
-            cxx: g++-10
-            build_type: Release
-            extra_packages: g++-10
-          - variant_name: Debug
-            cxx: g++-10
-            build_type: Debug
-            extra_packages: g++-10
-          - variant_name: Clang
-            cxx: clang++
-            build_type: Debug
-          - variant_name: 32
-            cxx: g++-10
-            build_type: Release
-            extra_packages: g++-10 g++-10-multilib
-            is_32: 1
     env:
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_SCANNER_VERSION: 4.6.2.2472
       BUILD_WRAPPER_OUT_DIR_ROOT: bwout # Directory where build-wrapper output will be placed
-      BUILD_WRAPPER_OUT_DIR: bwout/${{ matrix.variant_name }}]
-      IS_32: ${{ matrix.is_32 }}
-      CXX: ${{matrix.cxx}}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Prepare environment
-        run: sudo apt-get install -y ${{ matrix.extra_packages }}
+        run: sudo apt-get install -y g++-10 clang++ g++-10-multilib
     
-      - name: Download and install the build wrapper, build the project
+      - name: Download and install the build wrapper
         run: |
-          echo Building to [${{ env.BUILD_WRAPPER_OUT_DIR }}
           mkdir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}
           mkdir $HOME/.sonar
           curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ secrets.SONAR_HOST_URL }}/static/cpp/build-wrapper-linux-x86.zip
           unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
-          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
+
+      - name: Build-Main
         env:
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          CXX: g++-10
+          IS_32: 0
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Main cmake --build build
+
+      - name: Build-Debug
+        env:
+          CXX: g++-10
+          IS_32: 0
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Debug cmake --build build
+
+      - name: Build-Clang
+        env:
+          CXX: clang++
+          IS_32: 0
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Clang cmake --build build
+
+      - name: Build-32
+        env:
+          CXX: g++-10
+          IS_32: 1
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/32 cmake --build build
 
       - name: Download and install the SonarScanner
-        env:
-          SONAR_SCANNER_VERSION: 4.6.2.2472
         run: |
           curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
           unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
@@ -65,7 +70,4 @@ jobs:
       - name: SonarQube analysis
         run: |
           sonar-scanner --define sonar.cfamily.variants.dir=${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
