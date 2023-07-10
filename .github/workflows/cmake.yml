@@ -47,7 +47,7 @@ jobs:
           curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ secrets.SONAR_HOST_URL }}/static/cpp/build-wrapper-linux-x86.zip
           unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
           cmake -S . -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
-          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ BUILD_WRAPPER_OUT_DIR }} cmake --build build
+          $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
         env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
@@ -61,7 +61,7 @@ jobs:
           
       - name: SonarQube analysis
         run: |
-          sonar-scanner --define sonar.cfamily.build-wrapper-output=${{ BUILD_WRAPPER_OUT_DIR }}
+          sonar-scanner --define sonar.cfamily.build-wrapper-output=${{ env.BUILD_WRAPPER_OUT_DIR }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
