@@ -32,7 +32,7 @@ jobs:
             is_32: 1
     env:
       BUILD_WRAPPER_OUT_DIR_ROOT: bwout # Directory where build-wrapper output will be placed
-      BUILD_WRAPPER_OUT_DIR: ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/${{ matrix.variant_name }}]
+      BUILD_WRAPPER_OUT_DIR: bwout/${{ matrix.variant_name }}]
       IS_32: ${{ matrix.is_32 }}
       CXX: ${{matrix.cxx}}
     steps:
