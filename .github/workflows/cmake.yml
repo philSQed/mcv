@@ -64,7 +64,7 @@ jobs:
           
       - name: SonarQube analysis
         run: |
-          sonar-scanner --define sonar.cfamily.build-wrapper-output=${{ env.BUILD_WRAPPER_OUT_DIR }}
+          sonar-scanner --define sonar.cfamily.variants.dir=${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
