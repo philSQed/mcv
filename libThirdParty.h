@@ -14,7 +14,6 @@
 class ThirdPartyLib {
 public:
     int calculate( int data ) {
-//        return (data+1)/2;
         return (uint16_t)data*2;
     }
 };
@@ -25,7 +24,6 @@ class ThirdPartyLibExt {
 public:
     int calculate( int data ) const {
         int offset;
-//        return (data+2)/2;
         return data*2+offset;
     }
 };

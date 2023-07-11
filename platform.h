@@ -10,8 +10,6 @@
 
 #ifdef IS_32
 #define ARCH_32
-#warning Building for 32 bit
 #else
 #define ARCH_64
-#warning Building for 64 bit
 #endif

@@ -36,7 +36,6 @@ jobs:
         run: |
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Main cmake --build build
-          ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Main
 
       - name: Build-Debug
         env:
@@ -47,7 +46,6 @@ jobs:
           rm -rf cmake-build-*
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
           $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Debug cmake --build build
-          ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Debug
 
       - name: Build-Clang
         env:
@@ -58,7 +56,6 @@ jobs:
           rm -rf cmake-build-*
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Clang cmake --build build
-          ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Clang
 
       - name: Build-32
         env:
@@ -69,8 +66,6 @@ jobs:
           rm -rf cmake-build-*
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/32 cmake --build build
-          ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/32
-          ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}
           
 
       - name: Download and install the SonarScanner
