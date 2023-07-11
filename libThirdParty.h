@@ -24,6 +24,7 @@ public:
 class ThirdPartyLibExt {
 public:
     int calculate( int data ) const {
+//        return (data+2)/2;
         return data*2;
     }
 };
