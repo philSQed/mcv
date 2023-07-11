@@ -44,6 +44,7 @@ jobs:
           IS_32: 0
         run: |
           rm -rf build
+          rm -rf cmake-build-*
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
           $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Debug cmake --build build
           ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Debug
@@ -54,6 +55,7 @@ jobs:
           IS_32: 0
         run: |
           rm -rf build
+          rm -rf cmake-build-*
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Clang cmake --build build
           ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/Clang
@@ -64,6 +66,7 @@ jobs:
           IS_32: 1
         run: |
           rm -rf build
+          rm -rf cmake-build-*
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           $HOME/.sonar/build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/32 cmake --build build
           ls ${{ env.BUILD_WRAPPER_OUT_DIR_ROOT }}/32

@@ -18,7 +18,7 @@ public:
         return (uint16_t)data*2;
     }
 };
-
+#warning ThirdPartyLib32
 #else
 
 class ThirdPartyLibExt {
@@ -42,7 +42,7 @@ public:
         return ext.calculate(data);
     }
 };
-
+#warning ThirdPartyLib64
 #endif
 
 #endif //MCV_LIBTHIRDPARTY_H
